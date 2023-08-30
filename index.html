@@ -15,24 +15,32 @@
     <header>
       <h2>Hunting Phone</h2>
     </header>
-    <main>
+    <main class="container mx-auto">
+      <!--  search bar -->
       <section>
-        <div id="phone-container">
-          <div class="card w-96 bg-gray-100 shadow-xl">
-            <figure>
-              <img
-                src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                alt="Shoes"
-              />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Shoes!</h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
-              </div>
-            </div>
-          </div>
+        <div class="my-6 bg-slate-300 p-6 rounded-xl">
+          <input
+            id="input-field"
+            type="text"
+            placeholder="Search..."
+            class="input input-bordered input-primary w-full max-w-xs"
+          />
+          <button onclick="handleSearch()" class="btn btn-outline btn-primary">
+            Search
+          </button>
+        </div>
+      </section>
+      <!-- spinner -->
+      <div id="loading-spinner" class="text-center my-12 hidden">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+      <section>
+        <div
+          id="phone-container"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+        ></div>
+        <div id="show-all-container" class="text-center my-8 hidden">
+          <button class="btn btn-outline btn-primary">Show All</button>
         </div>
       </section>
     </main>

@@ -1,6 +1,6 @@
-const loadPhone = async () => {
+const loadPhone = async (phone) => {
   const res = await fetch(
-    "https://openapi.programming-hero.com/api/phones?search=iphone"
+    `https://openapi.programming-hero.com/api/phones?search=${phone}`
   );
   const data = await res.json();
   const phones = data.data;
@@ -9,19 +9,30 @@ const loadPhone = async () => {
 
 const displayPhones = (phones) => {
   const phoneContainer = document.getElementById("phone-container");
+  phoneContainer.textContent = "";
+
+  const showAllContainer = document.getElementById("show-all-container");
+  if (phones.length > 12) {
+    showAllContainer.classList.remove("hidden");
+  } else {
+    showAllContainer.classList.add("hidden");
+  }
+
+  // first 12
+  phones = phones.slice(0, 12);
   phones.forEach((phone) => {
     console.log(phone);
     const phoneCard = document.createElement("div");
-    phoneCard.classList = `card w-96 bg-gray-100 shadow-xl`;
+    phoneCard.classList = `card p-4 bg-gray-100 shadow-xl`;
     phoneCard.innerHTML = `
     <figure>
     <img
-      src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-      alt="Shoes"
+      src="${phone.image}"
+      alt="phoneImage"
     />
   </figure>
   <div class="card-body">
-    <h2 class="card-title">Shoes!</h2>
+    <h2 class="card-title">${phone.phone_name}</h2>
     <p>If a dog chews shoes whose shoes does he choose?</p>
     <div class="card-actions justify-end">
       <button class="btn btn-primary">Buy Now</button>
@@ -30,6 +41,26 @@ const displayPhones = (phones) => {
     `;
     phoneContainer.appendChild(phoneCard);
   });
+  toggleSpinner(false);
 };
 
-loadPhone();
+// handleSearch click handler
+const handleSearch = () => {
+  toggleSpinner(true);
+  const searchField = document.getElementById("input-field");
+  const searchValue = searchField.value;
+  searchField.value = "";
+  loadPhone(searchValue);
+};
+
+// toggle spinner funciton
+const toggleSpinner = (isLoading) => {
+  const loadingSpinner = document.getElementById("loading-spinner");
+  if (isLoading) {
+    loadingSpinner.classList.remove("hidden");
+  } else {
+    loadingSpinner.classList.add("hidden");
+  }
+};
+
+loadPhone("iphone");
