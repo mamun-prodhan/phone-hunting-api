@@ -23,7 +23,7 @@ const displayPhones = (phones, isShowAll) => {
     phones = phones.slice(0, 12);
   }
   phones.forEach((phone) => {
-    console.log(phone);
+    // console.log(phone);
     const phoneCard = document.createElement("div");
     phoneCard.classList = `card p-4 bg-gray-100 shadow-xl`;
     phoneCard.innerHTML = `
@@ -37,7 +37,7 @@ const displayPhones = (phones, isShowAll) => {
     <h2 class="card-title">${phone.phone_name}</h2>
     <p>If a dog chews shoes whose shoes does he choose?</p>
     <div class="card-actions justify-end">
-      <button class="btn btn-primary">Buy Now</button>
+      <button onclick = "handleshowDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
     </div>
   </div>    
     `;
@@ -70,4 +70,28 @@ function handleShowAll() {
   handleSearch(true);
 }
 
+// show details button onclick function
+function handleshowDetails(id) {
+  phoneLoad(id);
+}
+// load data based on id
+const phoneLoad = async (id) => {
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/phone/${id}`
+  );
+  const data = await res.json();
+  const singlePhone = data.data;
+  console.log(singlePhone);
+  displayModal(singlePhone);
+};
+// function for display data
+function displayModal(singlePhone) {
+  my_modal_5.showModal();
+  const modalInfo = document.getElementById("modal-info");
+  modalInfo.innerHTML = `
+    <img class="w-[50%] mx-auto" src="${singlePhone.image}" alt="">
+    <h2 class="text-4xl text-center my-4">${singlePhone.name}</h2>
+    <p class= "text-center">${singlePhone.mainFeatures.storage}</p>
+  `;
+}
 loadPhone("iphone");
